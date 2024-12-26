@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Post Uygulaması</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+</head>
+<body class="bg-gray-50 font-sans antialiased">
+
+    <!-- Header Section (Navbar) -->
+    <header class="bg-purple-600 py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="/" class="text-white text-2xl font-bold">T3</a>
+            <nav class="space-x-6">
+                <a href="/" class="text-white hover:text-gray-200">Home</a>
+                {% if not request.user.is_authenticated %}
+
+                 <a href="/accounts/register/" class="text-white hover:text-gray-200">Register</a>
+                 <a href="/accounts/login/" class="text-white hover:text-gray-200">Login</a>
+                {% else %}
+                                     <a href="/accounts/logout/" class="text-white hover:text-gray-200">Log Out</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    {% block body %}
+    <!-- Main Page Container -->
+    <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center py-12">
+
+        <!-- Content Container with border -->
+        <div class="bg-white p-8 rounded-xl shadow-lg max-w-lg w-full border-4 border-gray-300">
+
+            <!-- Page Title -->
+            <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-6">Burası Giriş Sayfası</h1>
+
+            <!-- Page Description -->
+            <p class="text-xl text-center text-gray-600 mb-8">Burası ilk paragraf. Lütfen formu doldurup kaydedin.</p>
+
+            <!-- Form Start -->
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Render the form fields -->
+                <div class="space-y-4">
+                    {{ form.as_p }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <input type="submit" value="Kaydet" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

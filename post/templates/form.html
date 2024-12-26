@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Main Pag e Container -->
+    <div class="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 min-h-screen flex items-center justify-center py-12">
+
+        <!-- Content Container with border -->
+        <div class="bg-white p-8 rounded-xl shadow-lg max-w-lg w-full border-4 border-gray-300">
+
+            <!-- Page Title -->
+            <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-6">Post Yarat</h1>
+
+                 <!-- Form Start -->
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Render the form fields -->
+                <div class="space-y-4">
+                    {{ form.as_p }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="flex justify-center">
+                    <input type="submit" value="Kaydet" class="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-300">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

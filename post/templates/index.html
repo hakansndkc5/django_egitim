@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="mb-6">
+            <ul class="space-y-4">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="p-4 bg-blue-100 text-blue-800 rounded-lg shadow-md {{ message.tags }}"{% endif %}>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+
+
+    <!-- Display posts -->
+    <div class="space-y-8">
+        {% for post in posts %}
+            <div class="bg-white p-6 border border-gray-300 rounded-xl shadow-lg">
+
+                <!-- Post ID Block -->
+                <div class="bg-green-100 p-4 rounded-lg mb-4">
+                    <span class="font-semibold text-green-700">Post ID:</span>
+                    <span class="text-green-900">{{ post.id }}</span>
+                </div>
+{% if post.image %}
+                <div class="mb-6">
+                    <img src="{{ post.image.url }}" class="w-full h-auto rounded-lg shadow-md" alt="Post Image">
+                </div>
+            {% endif %}
+                <!-- Post Title Block -->
+                <div class="bg-purple-200 p-6 rounded-lg mb-4">
+                    <h2 class="font-bold text-2xl text-purple-700">
+                        <a href="{{ post.get_absolute_url }}" class="hover:text-purple-900">{{ post.title }}</a>
+                    </h2>
+                </div>
+
+                <!-- Post Content Block -->
+                <div class="bg-yellow-50 p-6 rounded-lg mb-4">
+                    <p class="text-gray-800">{{ post.text }}</p>
+                </div>
+
+                <!-- Post Date Block -->
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <span class="font-semibold text-blue-600">Posted on:</span>
+                    <span class="text-blue-800">{{ post.date }}</span>
+                </div>
+                
+
+
+                <!-- Action Buttons (Update and Delete) -->
+                <div class="flex justify-between mt-4">
+                    <!-- Update Button -->
+                    <a href="{% url 'post:update' post.id %}" class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300">
+                        Güncelle
+                    </a>
+
+                    <!-- Delete Button -->
+                    <form action="{% url 'post:delete' post.id %}" method="post" onsubmit="return confirm('Emin misiniz? Bu işlem geri alınamaz.')">
+                        {% csrf_token %}
+                        <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300">
+                            Sil
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if contacts.has_previous %}
+            <a href="?page={{ contacts.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ contacts.number }} of {{ contacts.paginator.num_pages }}.
+        </span>
+
+        {% if contacts.has_next %}
+            <a href="?page={{ contacts.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
+{% endblock %}
